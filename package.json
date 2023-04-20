@@ -3,7 +3,7 @@
   "homepage": ".",
   "version": "0.1.0",
   "private": true,
-  "proxy" : "http:://localhost:5000",
+  "proxy" : "https://backendlivmo.onrender.com/",
   "dependencies": {
     "@date-io/date-fns": "^2.13.1",
     "@date-io/dayjs": "^2.13.1",
