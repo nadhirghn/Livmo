@@ -7,9 +7,9 @@ import TraderProtectedRoutes from './components/route/TraderProtectedRoutes';
 
 
 import { loadUser } from './actions/userActions';
-import store from './store'
+import { store } from './store';
 import { ThemeProvider } from "@mui/material/styles";
-
+import { withBreadcrumbs } from 'react-router-breadcrumbs-hoc';
 import theme from '../src/components/shared/theme'
 import './App.scss';
 import './index.css';
@@ -77,7 +77,7 @@ import Reservation from "./components/reservation/Reservation";
 
 //Contact
 import Contact from './components/userPages/Contact';
-
+import DefaultPage from './components/DefaultPage';
 //Dialog 
 import CustomizedDialogs from './Dialog/dialog1'
 
@@ -94,37 +94,75 @@ import TransportForm from './components/transport/updateTransport'
 import EditExperience from "./components/experience/editExperience/EditExperience";
 import Activation from './components/userAuth/Signup/Activation';
 
+import Breadcrumb from './components/Breadcrumb';
 
-function App() {
+const routes = [
+  { path: '/', breadcrumb: 'Home' },
+  { path: '/settings', breadcrumb: 'UserSettings' },
+  { path: '/dialog1', breadcrumb: 'CustomizedDialogs' },
+  { path: '/service-experience', breadcrumb: 'ServicesExperience' },
+  { path: '/become-account', breadcrumb: 'BecomeAccounts' },
+  { path: '/t1', breadcrumb: 'AddRemoveMultipleInputFields' },
+  { path: '/password/forgot', breadcrumb: 'ForgotPassword' },
+  { path: '/password/reset/:token', breadcrumb: 'NewPassword' },
+  { path: '/confirm/:activationcode', breadcrumb: 'Activation' },
+  { path: '/check', breadcrumb: 'Check' },
+  { path: '/login', breadcrumb: 'Login' },
+  { path: '/signup', breadcrumb: 'Signup' },
+  { path: '/test2', breadcrumb: 'Test1View' },
+  { path: '/test3', breadcrumb: 'Test2View' },
+  { path: '/become-host', breadcrumb: 'HostForm' },
+  { path: '/new-experience', breadcrumb: 'ExperienceForm' },
+  { path: '/all-experiences', breadcrumb: 'AllExperiences' },
+  { path: '/experience/:id', breadcrumb: 'ExperienceDetails' },
+  { path: '/update-experience', breadcrumb: 'EditExperience' },
+  { path: '/become-trader', breadcrumb: 'TraderForm' },
+  { path: '/merchant/me', breadcrumb: 'Merchant' },
+  { path: '/new-restaurant', breadcrumb: 'NewRestaurant' },
+  { path: '/new-lodging', breadcrumb: 'NewLodging' },
+  { path: '/new-transport', breadcrumb: 'NewTransport' },
+  { path: '/merchant/lodging/:id', breadcrumb: 'LogdingForm' },
+  { path: '/merchant/restaurant/:id', breadcrumb: 'DishForm' },
+  { path: '/merchant/transport/:id', breadcrumb: 'TransportForm' },
+  { path: '/all-restaurants', breadcrumb: 'AllRestaurants' },
+  { path: '/all-lodgings', breadcrumb: 'AllLodgings' },
+  { path: '/all-transports', breadcrumb: 'AllTransport' },
+  { path: '/lodging/:id', breadcrumb: 'LodgingDetails' },
+  { path: '/restaurant/:id', breadcrumb: 'RestaurantDetails' },
+  { path: '/transport/:id', breadcrumb: 'TransportDetails' },
+  { path: '/contact-us', breadcrumb: 'Contact' },
+  { path: '/reservation', breadcrumb: 'Reservation' },
+  { path: '/me/user', breadcrumb: 'User' },
+];
+
+
+
+function App ()  {
+  
+  <Breadcrumb links={routes} />  // code file d'aliane
+  // code seo  : const = App ({breadcrumb}) => {}
   useEffect(() => {
- store.dispatch(loadUser())
- 
+    store.dispatch(loadUser())
   }, [])
   
 
   return (
     <div className="App">
+      
     <ThemeProvider theme={theme}>
     <Router>
       <Switch>
 
-  
-
+   
       <Route exact path='/settings' component={UserSettings} />
       <Route exact path='/dialog1' component={CustomizedDialogs} />
 
 
 
     <Route exact path='/' component={Home} />
-    <Route exact path='/service_experience' component={ServicesExperience} />
-    <Route exact path='/becomeaccount' component={BecomeAccounts} />
+    <Route exact path='/service-experience' component={ServicesExperience} />
+    <Route exact path='/become-account' component={BecomeAccounts} />
     <Route exact path='/t1' component={AddRemoveMultipleInputFields} />
-
-
-
-    
-
-
 
     <Route exact path='/password/forgot' component={ForgotPassword} />
     <Route exact path='/password/reset/:token' component={NewPassword} />
@@ -146,26 +184,27 @@ function App() {
 
 
    {/* Host Routes */}
-
-    <Route exact path='/becomehost' component={HostForm} />
-    <HostProtectedRoute exact path='/newexperience' component={ExperienceForm} />
-    <Route exact path='/allexperiences' component={AllExperiences} />
+  
+    <Route exact path='/become-host' component={HostForm} />
+    <HostProtectedRoute exact path='/new-experience' component={ExperienceForm} />
+    {/* <HostProtectedRoute exact path='/new-experience' component={DefaultPage} /> */}
+    <Route exact path='/all-experiences' component={AllExperiences} />
     <Route  path="/experience/:id" component={ExperienceDetails} />
     <HostProtectedRoute exact path='/host/me' component={Host} />
-    <Route exact path='/updateexperience' component={EditExperience} />
+    <Route exact path='/update-experience' component={EditExperience} />
 
 
 
 
    {/* Trader Routes */}
-    <Route exact path='/becometrader' component={TraderForm} />
+    <Route exact path='/become-trader' component={TraderForm} />
 
     <TraderProtectedRoutes exact path='/merchant/me' component={Merchant} />
 
   {/* Add Services */}
-    <TraderProtectedRoutes exact path='/newrestaurant' component={NewRestaurant} />
-    <TraderProtectedRoutes exact path='/newlodging' component={NewLodging} />
-    <TraderProtectedRoutes exact path='/newtransport' component={NewTransport} />
+    <TraderProtectedRoutes exact path='/new-restaurant' component={NewRestaurant} />
+    <TraderProtectedRoutes exact path='/new-lodging' component={NewLodging} />
+    <TraderProtectedRoutes exact path='/new-transport' component={NewTransport} />
 
   {/* Update Services */}
     <TraderProtectedRoutes exact path='/merchant/lodging/:id' component={LogdingForm} />
@@ -175,9 +214,9 @@ function App() {
 
 
 
-    <Route exact path='/allrestaurants' component={AllRestaurants} />
-    <Route exact path='/alllodgings' component={AllLodgings} />
-    <Route exact path='/alltransports' component={AllTransport} />
+    <Route exact path='/all-restaurants' component={AllRestaurants} />
+    <Route exact path='/all-lodgings' component={AllLodgings} />
+    <Route exact path='/all-transports' component={AllTransport} />
 
     <Route  path="/lodging/:id" component={LodgingDetails} />
     <Route  path="/restaurant/:id" component={RestaurantDetails} />
@@ -195,7 +234,7 @@ function App() {
 
 
    {/* Reservation Routes */}
-    <Route exact path='/contactus' component={Contact} />
+    <Route exact path='/contact-us' component={Contact} />
 
 
 

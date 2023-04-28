@@ -57,21 +57,17 @@ import {
 } from '../constants/userConstants'
 
 
+
 // Validation
-export const Validation = (userData) => async (dispatch) => {
+export const Validation = (userData,activationCode) => async (dispatch) => {
     try {
-
         dispatch({ type: VALIDATION_REQUEST })
-
-
-
-        const { data } = await axios.post('/api/v1/verifyuser/:activationcode', userData)
-
+        const { data } = await axios.post(`http://localhost:3000/api/v1/verifyuser/${activationCode}`, userData)
         dispatch({
             type: VALIDATION_SUCCESS,
-            payload: data.user
+            payload: data.user,
+           
         })
-
     } catch (error) {
         dispatch({
             type: VALIDATION_FAIL,
@@ -89,23 +85,31 @@ export const login = (email, password) => async (dispatch) => {
 
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+               
             }
         }
-
-        // 
-
-        const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/login', { email, password }, config)
+// https://backendlivmo.onrender.com/api/v1/login
+    const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/login', { email, password }, config)
+       localStorage.setItem('authToken', data.token)
 
         dispatch({
             type: LOGIN_SUCCESS,
-            payload: data.user
+            payload: data
+          
         })
 
+        //localStorage.setItem('userInfo',JSON.stringify(data))
+        // window.location.href='/'
+       
+     
+      
     } catch (error) {
+        console.log(error)
         dispatch({
             type: LOGIN_FAIL,
-            payload: error.response.data.message
+            payload:error.response &&  error.response.data.message ? 
+            error.response.data.message : error.message,
         })
     }
 }
@@ -121,7 +125,7 @@ export const Register = (userData) => async (dispatch) => {
                 'Content-Type': 'multipart/form-data'
             }
         }
-
+  // https://backendlivmo.onrender.com/api/v1/register
         const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/register', userData, config)
         //const { data } = await axios.post('', userData, config)
         console.log(data.user)
@@ -152,7 +156,7 @@ export const HostRegister = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/hostregister', userData, config)
+        const { data } = await axios.post('http://localhost:3000/api/v1/hostregister', userData, config)
 
         dispatch({
             type: HOSTREGISTER_USER_SUCCESS,
@@ -180,7 +184,7 @@ export const updateToHostProfile = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put('/api/v1/registerhost', userData, config)
+        const { data } = await axios.put('http://localhost:3000/api/v1/registerhost', userData, config)
 
         dispatch({
             type: HOSTUPDATE_PROFILE_SUCCESS,
@@ -208,7 +212,7 @@ export const RegisterOrganism = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/organism/register', userData, config)
+        const { data } = await axios.post('http://localhost:3000/api/v1/organism/register', userData, config)
 
         dispatch({
             type: ORGANISMREGISTER_USER_SUCCESS,
@@ -236,39 +240,49 @@ export const registerTrader = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/traderregister', userData, config)
+
+        const { data } = await axios.post('http://localhost:3000/api/v1/traderregister',userData, config)
 
         dispatch({
             type: TRADERREGISTER_USER_SUCCESS,
             payload: data.user
         })
+        
 
     } catch (error) {
         dispatch({
             type: TRADERREGISTER_USER_FAIL,
             payload: error.response.data.message
+            
         })
+       
     }
 }
 
 
 // Load user
 export const loadUser = () => async (dispatch) => {
-    try {
+   try {
 
         dispatch({ type: LOAD_USER_REQUEST })
+      
 
-        const { data } = await axios.get('/api/v1/me')
-
+        const { data } = await axios.get('http://localhost:3000/api/v1/me', {
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('authToken')) ?? ''}`,
+            }
+        })
+        console.log("hey2223")   // ici error 
         dispatch({
             type: LOAD_USER_SUCCESS,
             payload: data.user
         })
 
     } catch (error) {
+    
         dispatch({
             type: LOAD_USER_FAIL,
-            payload: error.response.data.message
+            payload: error.response?.data.message
         })
     }
 }
@@ -285,7 +299,7 @@ export const updateProfile = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put('/api/v1/me/update', userData, config)
+        const { data } = await axios.put('http://localhost:3000/api/v1/me/update', userData, config)
 
         dispatch({
             type: UPDATE_PROFILE_SUCCESS,
@@ -312,7 +326,7 @@ export const updatePassword = (passwords) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put('/api/v1/password/update', passwords, config)
+        const { data } = await axios.put('http://localhost:3000/api/v1/password/update', passwords, config)
 
         dispatch({
             type: UPDATE_PASSWORD_SUCCESS,

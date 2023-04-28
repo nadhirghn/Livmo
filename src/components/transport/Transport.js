@@ -79,7 +79,7 @@ const Transport = ({ transport, col }) => {
                 onChange={onChangefav}
               />
               <Link to={`/transport/${transport._id}`}>
-                <img src={transport.images[0].url} alt="transport-img" />
+                <img src={transport.images[0].url} alt={transport.name} />
               </Link>
             </div>
 
@@ -91,7 +91,7 @@ const Transport = ({ transport, col }) => {
               >
                 <Link to={`/transport/${transport._id}`}>
                   <Box className="pinkGradientText hostFavouriteItemNameFont">
-                    {transport.name}
+                    <h2>{transport.name}</h2>
                   </Box>
                 </Link>
                 <Box className="hostFavouriteItemLodgingTypeFont">

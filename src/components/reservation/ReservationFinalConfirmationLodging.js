@@ -59,7 +59,7 @@ const ReservationFinalConfirmationLodging = ({handleStepChange })=>{
             <Stack style={{boxShadow: ' 1.05109px 0.525546px 2.62773px 1.05109px rgba(0, 0, 0, 0.4)', borderRadius: '8px',}}
                    className="text-center border-2 space-y-[52px] pt-12"  width="262px" height="505px">
 
-                <img style={{marginLeft: '40%'}} src={reservationLodgingIcon} width="38px" height="36px"/>
+                <img style={{marginLeft: '40%'}} alt={lodgingData.lodging.description} src={reservationLodgingIcon} width="38px" height="36px"/>
                 <Typography component='div' ><Box sx={{fontWeight: '400', fontSize: '18px'}}>{lodgingData.lodging.name}</Box></Typography>
                 <Typography component='div'><Box sx={{fontWeight: '700', fontSize: '21px'}}>
                     {

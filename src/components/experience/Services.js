@@ -487,7 +487,7 @@ const Changin = (event) => {
                 </label>
 
                 {inputField.dishImages.map((dishImages) => (
-                     <img src={dishImages} key={inputField.id} alt="Images Preview" className="mt-3 mr-2" width="100" height="100" />
+                     <img src={dishImages} key={inputField.id} alt={inputField.dishDescription} className="mt-3 mr-2" width="100" height="100" />
                       ))}
                    </div>
                  </div>

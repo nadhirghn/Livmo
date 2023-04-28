@@ -171,7 +171,7 @@ const submitHandler = (e) => {
           <img
           style={{marginLeft:"1.2rem"}}
             src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            alt=""
+            alt={lodging.description}
           />
         </SubGrid>
         <SubGrid item sm={9} xs={12}>
