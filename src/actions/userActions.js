@@ -89,16 +89,19 @@ export const login = (email, password) => async (dispatch) => {
                
             }
         }
-// https://backendlivmo.onrender.com/api/v1/login
-    const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/login', { email, password }, config)
+
+    const { data } = await axios.post('http://localhost:3000/api/v1/login', { email, password }, config)
        localStorage.setItem('authToken', data.token)
+       
 
         dispatch({
             type: LOGIN_SUCCESS,
             payload: data
           
         })
-
+        console.log(data)
+        localStorage.setItem('userInfo', JSON.stringify(data))
+      //  localStorage.setItem('authToken', data.token)
         //localStorage.setItem('userInfo',JSON.stringify(data))
         // window.location.href='/'
        
@@ -125,8 +128,8 @@ export const Register = (userData) => async (dispatch) => {
                 'Content-Type': 'multipart/form-data'
             }
         }
-  // https://backendlivmo.onrender.com/api/v1/register
-        const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/register', userData, config)
+
+        const { data } = await axios.post('http://localhost:3000/api/v1/register', userData, config)
         //const { data } = await axios.post('', userData, config)
         console.log(data.user)
         dispatch({

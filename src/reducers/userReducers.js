@@ -73,7 +73,7 @@ import {
 
 
 // export const authReducer = (state = { user: {} }, action) => {
-export const authReducer = (state = {user: {}}, action) => {
+export const authReducer = (state = {user: {}}, action ) => {
     console.log('state',state)
     console.log('action',action)
    
@@ -109,6 +109,7 @@ export const authReducer = (state = {user: {}}, action) => {
                 loading: false,
                 isAuthenticated: true,
                 user: action.payload
+             
             }
 
         case LOGOUT_SUCCESS:
@@ -129,6 +130,7 @@ export const authReducer = (state = {user: {}}, action) => {
         case LOGOUT_FAIL:
             return {
                 ...state,
+                // loading:false,
                 error: action.payload
             }
 

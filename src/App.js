@@ -96,6 +96,8 @@ import Activation from './components/userAuth/Signup/Activation';
 
 import Breadcrumb from './components/Breadcrumb';
 
+
+
 const routes = [
   { path: '/', breadcrumb: 'Home' },
   { path: '/settings', breadcrumb: 'UserSettings' },

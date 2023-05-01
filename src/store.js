@@ -123,7 +123,7 @@ let initialState = {
 
 const middlware = [thunk];
 //export const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(...middlware)))
-export const store = createStore(rootReducer, persistConfig, compose(applyMiddleware(thunk)))
+export const store = createStore(rootReducer,initialState, composeWithDevTools(applyMiddleware(...middlware)))
 
 //  default store;
 
