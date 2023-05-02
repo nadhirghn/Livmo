@@ -59,7 +59,7 @@ function Contact() {
       <br/>
       <br/>
       <br/>
-      <meta name="robots"content="noindex"></meta>
+      {/* <meta name="robots"content="noindex"></meta> */}
 
     <Div>
       

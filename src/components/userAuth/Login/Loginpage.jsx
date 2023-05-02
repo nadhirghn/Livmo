@@ -164,7 +164,7 @@ const { register, handleSubmit, formState: {errors} } = useForm();
               marginTop:'10rem'
             }}
           >
-            <meta name="robots"content="noindex"></meta>
+            {/* <meta name="robots"content="noindex"></meta> */}
              <div className='loginimg'>
               <Link to="/">
             <img src={IMG} alt='logo' />
