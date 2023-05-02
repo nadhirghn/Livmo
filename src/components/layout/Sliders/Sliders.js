@@ -62,7 +62,8 @@ const Sliders = ({ sliderData }) => {
             <img src={slide.image} alt="slider" key={index} className="image" />
             </Link>
             <Link  to={slide.link}>
-            <span><h3>{slide.name}</h3></span>
+              {/* seo is done Balises Hn */}
+            <span><h3>{slide.name}</h3></span>  
             </Link>
           </div>
         );

@@ -59,8 +59,10 @@ function Contact() {
       <br/>
       <br/>
       <br/>
+      <meta name="robots"content="noindex"></meta>
 
     <Div>
+      
       <h1 style={{marginBottom:"4rem"}}>Contact Information</h1>
     
       <Container>

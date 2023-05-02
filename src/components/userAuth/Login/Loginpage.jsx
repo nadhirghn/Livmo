@@ -137,6 +137,7 @@ const { register, handleSubmit, formState: {errors} } = useForm();
         <React.Fragment>
        <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
+        
         <CssBaseline />
         <Grid
           item
@@ -163,7 +164,7 @@ const { register, handleSubmit, formState: {errors} } = useForm();
               marginTop:'10rem'
             }}
           >
-
+            <meta name="robots"content="noindex"></meta>
              <div className='loginimg'>
               <Link to="/">
             <img src={IMG} alt='logo' />

@@ -40,8 +40,7 @@ const Home = () => {
     <Layout>
 
       {/* seo is here  */}
-     <link rel="canonical" href=" https://www.livmo.net"/> 
-     <meta name="robots"content="noindex"></meta>
+  
      {/* seo is here  */}
      <head>
 

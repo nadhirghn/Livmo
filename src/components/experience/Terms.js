@@ -443,7 +443,7 @@ const Terms = ({ compteFormValues ,changeCompteValue,
           <img
             src={item}
             srcSet={item}
-            alt={item}
+            alt="You Idea Image"
             loading="lazy"
           />
         </ImageListItem>
@@ -485,7 +485,7 @@ const Terms = ({ compteFormValues ,changeCompteValue,
           <img
             src={item}
             srcSet={item}
-            alt={item}
+            alt="Activity photo"
             loading="lazy"
           />
         </ImageListItem>
@@ -524,7 +524,7 @@ const Terms = ({ compteFormValues ,changeCompteValue,
           <img
             src={item}
             srcSet={item}
-            alt={item}
+            alt="Dish photo"
             loading="lazy"
           />
         </ImageListItem>
@@ -605,7 +605,7 @@ const Terms = ({ compteFormValues ,changeCompteValue,
           <img
             src={item}
             srcSet={item}
-            alt={item}
+            alt="transport photo"
             loading="lazy"
           />
         </ImageListItem>
@@ -667,7 +667,7 @@ const Terms = ({ compteFormValues ,changeCompteValue,
           <img
             src={item}
             srcSet={item}
-            alt={item}
+            alt="loadging photo"
             loading="lazy"
           />
         </ImageListItem>

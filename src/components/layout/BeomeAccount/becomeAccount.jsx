@@ -24,11 +24,7 @@ const OnClick = () => {
 <section class="hero is-medium is-link adventurer-hero">
   <div class="hero-body">
     <p class="title">
-      <h2>
-      BECOME AN <br/>
-    ADVENTURER
-
-      </h2>
+      <h2>BECOME AN ADVENTURER</h2>
    
     </p>
     <p class="subtitle">
@@ -52,11 +48,7 @@ const OnClick = () => {
 <section class="hero is-medium is-link merchant-hero">
   <div class="hero-body">
     <p class="title">
-      <h2>
-      BECOME A <br/>
-    MERCHANT
-
-      </h2>
+      <h2>BECOME A MERCHANT</h2>
   
     </p>
     <p class="subtitle">
@@ -80,11 +72,7 @@ const OnClick = () => {
 <section class="hero is-medium is-link host-hero">
   <div class="hero-body">
     <p class="title">
-      <h2>
-      BECOME A <br/>
-    HOST
-        
-      </h2>
+      <h2>BECOME A HOST</h2>
   
     </p>
     <p class="subtitle">

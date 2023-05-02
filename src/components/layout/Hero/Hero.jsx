@@ -154,12 +154,7 @@ const Hero = () => {
       lineHeight:"70px"
 
 	  }}>
-      <h1>
-      YOU DON’T KNOW<br/>
-    WHERE TO GO?<br/>
-    PERFECT!
-
-      </h1>
+      <h1>You don’t know where to go ? perfect!</h1>
 
     </p>
     <ThemeProvider theme={theme}>

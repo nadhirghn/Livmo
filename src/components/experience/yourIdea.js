@@ -363,7 +363,7 @@ useEffect(() => {
                 </label>
 
                  {YourIdeaImage.map(img => (
-                     <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
+                     <img src={img} key={img} alt="you idea image" className="mt-3 mr-2" width="55" height="52" />
                       ))}
                    </div>
                  </div>

@@ -110,7 +110,7 @@ const card1 = (
     align='left'
     variant="h6"
     gutterBottom component="div">
-      Discover how it works !
+      <h2>Discover how it works !</h2>
       </Typography>
     </CardContent>
     </React.Fragment>
@@ -171,7 +171,7 @@ const card3 = (
                             fontWeight: 700,
                             fontSize: '36px',
                             lineHeight: '39px'
-                          }} ><h2>Become a Host</h2></div>
+                          }} ><h3>Become a Host</h3></div>
                         </div>
                      
       </CardContent>
@@ -198,7 +198,7 @@ const card3 = (
                             fontWeight: 700,
                             fontSize: '36px',
                             lineHeight: '39px'
-                          }} ><h2>Become a Merchant</h2></div>
+                          }} ><h3>Become a Merchant</h3></div>
                         </div>
                      
       </CardContent>

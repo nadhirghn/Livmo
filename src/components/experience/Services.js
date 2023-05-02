@@ -487,7 +487,7 @@ const Changin = (event) => {
                 </label>
 
                 {inputField.dishImages.map((dishImages) => (
-                     <img src={dishImages} key={inputField.id} alt={inputField.dishDescription} className="mt-3 mr-2" width="100" height="100" />
+                     <img src={dishImages} key={inputField.id} alt={inputField.dishName} className="mt-3 mr-2" width="100" height="100" />
                       ))}
                    </div>
                  </div>
@@ -618,7 +618,7 @@ const Changin = (event) => {
                 </label>
 
                  {TrImage.map(imgs => (
-                   <img src={imgs} key={imgs} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
+                   <img src={imgs} key={imgs} alt={detailedFormValues.nameTransport} className="mt-3 mr-2" width="55" height="52" />
                     ))}
 
                           </div>
@@ -1041,7 +1041,7 @@ onChange={(e) => changeDetailedValue('vehiclerules', e.target.value)}
                   </span>
               </label>
                                   {LdImage.map(imge => (
-                                      <img src={imge} key={imge} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
+                                      <img src={imge} key={imge} alt={detailedFormValues.nameLodging} className="mt-3 mr-2" width="55" height="52" />
                                   ))}
 
                               </div>
@@ -1053,7 +1053,8 @@ onChange={(e) => changeDetailedValue('vehiclerules', e.target.value)}
                       <Grid item xs={12} md={4}>
       
          <Typography  style={{ color:"white", textAlign: "left" }}>Begin :</Typography> 
-                      
+         
+           
        
             <TextField
         id="datetime-local"

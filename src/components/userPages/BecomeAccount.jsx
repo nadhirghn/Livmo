@@ -18,6 +18,7 @@ const BecomeAccounts = () => {
     </head>
     <Layout>
           <MetaData title={'livmo|Services & Experience Page'} />
+          <meta name="robots"content="noindex"></meta>
     <BecomeAccount />
     </Layout>
          </React.Fragment>

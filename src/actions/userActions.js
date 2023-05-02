@@ -1,3 +1,6 @@
+/// https://backendlivmo.onrender.com/api/v1/login
+/// https://backendlivmo.onrender.com/api/v1/register
+
 import axios from 'axios'
 import {
     LOGIN_REQUEST,
@@ -62,7 +65,7 @@ import {
 export const Validation = (userData,activationCode) => async (dispatch) => {
     try {
         dispatch({ type: VALIDATION_REQUEST })
-        const { data } = await axios.post(`http://localhost:3000/api/v1/verifyuser/${activationCode}`, userData)
+        const { data } = await axios.post(`https://backendlivmo.onrender.com/api/v1/verifyuser/${activationCode}`, userData)
         dispatch({
             type: VALIDATION_SUCCESS,
             payload: data.user,
@@ -89,8 +92,8 @@ export const login = (email, password) => async (dispatch) => {
                
             }
         }
-
-    const { data } = await axios.post('http://localhost:3000/api/v1/login', { email, password }, config)
+/// https://backendlivmo.onrender.com/api/v1/login
+    const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/login', { email, password }, config)
        localStorage.setItem('authToken', data.token)
        
 
@@ -129,7 +132,7 @@ export const Register = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('http://localhost:3000/api/v1/register', userData, config)
+        const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/register', userData, config)
         //const { data } = await axios.post('', userData, config)
         console.log(data.user)
         dispatch({
@@ -159,7 +162,7 @@ export const HostRegister = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('http://localhost:3000/api/v1/hostregister', userData, config)
+        const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/hostregister', userData, config)
 
         dispatch({
             type: HOSTREGISTER_USER_SUCCESS,
@@ -187,7 +190,7 @@ export const updateToHostProfile = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put('http://localhost:3000/api/v1/registerhost', userData, config)
+        const { data } = await axios.put('https://backendlivmo.onrender.com/api/v1/registerhost', userData, config)
 
         dispatch({
             type: HOSTUPDATE_PROFILE_SUCCESS,

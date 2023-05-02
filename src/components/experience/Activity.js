@@ -314,7 +314,7 @@ if (event.target.name === "activityimages") {
                     </span>
                 </label>
                  {inputField.activityimages.map(img => (
-                     <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="100" height="100" />
+                     <img src={img} key={img} alt="Activity Image" className="mt-3 mr-2" width="100" height="100" />
                       ))}
                          
                    </div>

@@ -19,6 +19,26 @@ const Experience = ({ experience, col }) => {
 
 
 
+  const experience = {
+    "@context": "http://schema.org",
+    "@type": "Product",
+    "name": "Nom du produit",
+    "image": "http://www.example.com/product-image.jpg",
+    "description": "Description du produit",
+    "sku": "12345",
+    "brand": {
+      "@type": "Brand",
+      "name": "Nom de la marque"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "19.99",
+      "priceCurrency": "USD",
+      "availability": "http://schema.org/InStock"
+    }
+  };
+
+
   const [value, setValue] = React.useState(null);;
 
   const onChangefav = (event, newValue) => {
@@ -80,7 +100,7 @@ const Experience = ({ experience, col }) => {
                     <img
                       className = "cardd-img-top mx-auto"
                       src= {experience.YourIdeaImage[0].url}
-                      alt= "experience-img"
+                      alt= {experience.exptitle}
                     />
                    </div>
                     <div className="card__container--inner--card--date_time">

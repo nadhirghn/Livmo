@@ -1,3 +1,4 @@
-# https://www.robotstxt.org/robotstxt.html
-User-agent: *
-Disallow:
+User-agent: Googlebot
+Disallow: 
+Disallow: /cgi-bin/
+Sitemap: https://www.livmo.net/sitemap.xml
