@@ -14,7 +14,7 @@ import theme from '../src/components/shared/theme'
 import './App.scss';
 import './index.css';
 
-import {BrowserRouter as Router , Switch, Route  } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
 import Home from './components/userPages/Home';
@@ -139,44 +139,42 @@ const routes = [
 
 
 
-function App ()  {
-  
+function App() {
+
   <Breadcrumb links={routes} />  // code file d'aliane
   // code seo  : const = App ({breadcrumb}) => {}
   useEffect(() => {
     store.dispatch(loadUser())
   }, [])
-  
+
 
   return (
     <div className="App">
-      
-    <ThemeProvider theme={theme}>
-    <Router>
-      <Switch>
 
-   
-      <Route exact path='/settings' component={UserSettings} />
-      <Route exact path='/dialog1' component={CustomizedDialogs} />
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Switch>
 
 
+            <Route exact path='/settings' component={UserSettings} />
+            <Route exact path='/dialog1' component={CustomizedDialogs} />
 
-    <Route exact path='/' component={Home} />
-    <Route exact path='/service-experience' component={ServicesExperience} />
-    <Route exact path='/become-account' component={BecomeAccounts} />
-    <Route exact path='/t1' component={AddRemoveMultipleInputFields} />
+            <Route exact path='/' component={Home} />
+            <Route exact path='/service-experience' component={ServicesExperience} />
+            <Route exact path='/become-account' component={BecomeAccounts} />
+            <Route exact path='/t1' component={AddRemoveMultipleInputFields} />
 
-    <Route exact path='/password/forgot' component={ForgotPassword} />
-    <Route exact path='/password/reset/:token' component={NewPassword} />
+            <Route exact path='/password/forgot' component={ForgotPassword} />
+            <Route exact path='/password/reset/:token' component={NewPassword} />
 
-    <Route exact path='/confirm/:activationcode' component={Activation} />
-    <Route exact path='/check' component={Check} />
+            <Route exact path='/confirm/:activationcode' component={Activation} />
+            <Route exact path='/check' component={Check} />
 
-    <Route exact path='/login' component={Login} />
-    <Route exact path='/signup' component={Signup} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/signup' component={Signup} />
 
-    <Route exact path='/test2' component={Test1View} />
-    <Route exact path='/test3' component={Test2View} />
+            <Route exact path='/test2' component={Test1View} />
+            <Route exact path='/test3' component={Test2View} />
 
 
 
@@ -185,82 +183,82 @@ function App ()  {
 
 
 
-   {/* Host Routes */}
-  
-    <Route exact path='/become-host' component={HostForm} />
-    <HostProtectedRoute exact path='/new-experience' component={ExperienceForm} />
-    {/* <HostProtectedRoute exact path='/new-experience' component={DefaultPage} /> */}
-    <Route exact path='/all-experiences' component={AllExperiences} />
-    <Route  path="/experience/:id" component={ExperienceDetails} />
-    <HostProtectedRoute exact path='/host/me' component={Host} />
-    <Route exact path='/update-experience' component={EditExperience} />
+            {/* Host Routes */}
+
+            <Route exact path='/become-host' component={HostForm} />
+            <HostProtectedRoute exact path='/new-experience' component={ExperienceForm} />
+            {/* <HostProtectedRoute exact path='/new-experience' component={DefaultPage} /> */}
+            <Route exact path='/all-experiences' component={AllExperiences} />
+            <Route path="/experience/:id" component={ExperienceDetails} />
+            <HostProtectedRoute exact path='/host/me' component={Host} />
+            <Route exact path='/update-experience' component={EditExperience} />
 
 
 
 
-   {/* Trader Routes */}
-    <Route exact path='/become-trader' component={TraderForm} />
+            {/* Trader Routes */}
+            <Route exact path='/become-trader' component={TraderForm} />
 
-    <TraderProtectedRoutes exact path='/merchant/me' component={Merchant} />
+            <TraderProtectedRoutes exact path='/merchant/me' component={Merchant} />
 
-  {/* Add Services */}
-    <TraderProtectedRoutes exact path='/new-restaurant' component={NewRestaurant} />
-    <TraderProtectedRoutes exact path='/new-lodging' component={NewLodging} />
-    <TraderProtectedRoutes exact path='/new-transport' component={NewTransport} />
+            {/* Add Services */}
+            <TraderProtectedRoutes exact path='/new-restaurant' component={NewRestaurant} />
+            <TraderProtectedRoutes exact path='/new-lodging' component={NewLodging} />
+            <TraderProtectedRoutes exact path='/new-transport' component={NewTransport} />
 
-  {/* Update Services */}
-    <TraderProtectedRoutes exact path='/merchant/lodging/:id' component={LogdingForm} />
-    <TraderProtectedRoutes exact path='/merchant/restaurant/:id' component={DishForm} />
-    <TraderProtectedRoutes exact path='/merchant/transport/:id' component={TransportForm} />
-
-
-
-
-    <Route exact path='/all-restaurants' component={AllRestaurants} />
-    <Route exact path='/all-lodgings' component={AllLodgings} />
-    <Route exact path='/all-transports' component={AllTransport} />
-
-    <Route  path="/lodging/:id" component={LodgingDetails} />
-    <Route  path="/restaurant/:id" component={RestaurantDetails} />
-    <Route  path="/transport/:id" component={TransportDetails} />
+            {/* Update Services */}
+            <TraderProtectedRoutes exact path='/merchant/lodging/:id' component={LogdingForm} />
+            <TraderProtectedRoutes exact path='/merchant/restaurant/:id' component={DishForm} />
+            <TraderProtectedRoutes exact path='/merchant/transport/:id' component={TransportForm} />
 
 
 
 
+            <Route exact path='/all-restaurants' component={AllRestaurants} />
+            <Route exact path='/all-lodgings' component={AllLodgings} />
+            <Route exact path='/all-transports' component={AllTransport} />
 
-    
+            <Route path="/lodging/:id" component={LodgingDetails} />
+            <Route path="/restaurant/:id" component={RestaurantDetails} />
+            <Route path="/transport/:id" component={TransportDetails} />
 
 
 
 
 
 
-   {/* Reservation Routes */}
-    <Route exact path='/contact-us' component={Contact} />
 
 
 
 
 
 
-   {/* Reservation Routes */}
-   <Route exact path='/reservation' component={Reservation}  />
-
-   {/* User Profile Routes */}
-
-  <ProtectedRoute exact path='/me/user' component={User}  />
+            {/* Reservation Routes */}
+            <Route exact path='/contact-us' component={Contact} />
 
 
 
 
 
-    </Switch>
+
+            {/* Reservation Routes */}
+            <Route exact path='/reservation' component={Reservation} />
+
+            {/* User Profile Routes */}
+
+            <ProtectedRoute exact path='/me/user' component={User} />
 
 
 
-    </Router>
-    </ThemeProvider>
-</div>
+
+
+          </Switch>
+
+
+
+        </Router>
+      </ThemeProvider>
+    </div>
 
   );
 }

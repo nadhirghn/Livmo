@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { Provider } from 'react-redux';
-import {store, persistor} from './store';
+import { store, persistor } from './store';
 import { PersistGate } from 'redux-persist/integration/react'
 import { positions, transitions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
@@ -17,17 +17,23 @@ const options = {
   transitions: transitions.SCALE
 }
 
+const onBeforeLift = () => {
+  // take some action before the gate lifts
+}
+
 
 ReactDOM.render(
 
   <Provider store={store}>
-      {/* <PersistGate persistor={persistor}> */}
+    {/* <PersistGate
+      onBeforeLift={onBeforeLift}
+      persistor={persistor}> */}
       <AlertProvider template={AlertTemplate} {...options}>
-      <App />
+        <App />
       </AlertProvider>
-      {/* </PersistGate> */}
+    {/* </PersistGate> */}
   </Provider>,
-  
+
   document.getElementById('root')
 );
 

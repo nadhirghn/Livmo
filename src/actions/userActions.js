@@ -58,18 +58,19 @@ import {
     LOGOUT_FAIL,
     CLEAR_ERRORS
 } from '../constants/userConstants'
+import axiosInstance from '../AxiosInstance'
 
 
 
 // Validation
-export const Validation = (userData,activationCode) => async (dispatch) => {
+export const Validation = (userData, activationCode) => async (dispatch) => {
     try {
         dispatch({ type: VALIDATION_REQUEST })
         const { data } = await axios.post(`https://backendlivmo.onrender.com/api/v1/verifyuser/${activationCode}`, userData)
         dispatch({
             type: VALIDATION_SUCCESS,
             payload: data.user,
-           
+
         })
     } catch (error) {
         dispatch({
@@ -87,35 +88,35 @@ export const login = (email, password) => async (dispatch) => {
         dispatch({ type: LOGIN_REQUEST })
 
         const config = {
-            headers: {
-                'Content-Type': 'application/json',
-               
-            }
+            withCredentials: true,
         }
-/// https://backendlivmo.onrender.com/api/v1/login
-    const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/login', { email, password }, config)
-       localStorage.setItem('authToken', data.token)
-       
+        /// https://backendlivmo.onrender.com/api/v1/login
+        // const reponse = await axios.post('http://localhost:3000/api/v1/login', { email, password }, config)
+
+        const reponse = await axiosInstance.post('/login', { email, password })
+
+        localStorage.setItem('authToken', reponse.data.token)
+
 
         dispatch({
             type: LOGIN_SUCCESS,
-            payload: data
-          
+            payload: reponse.data.token
+
         })
-        console.log(data)
-        localStorage.setItem('userInfo', JSON.stringify(data))
-      //  localStorage.setItem('authToken', data.token)
+        console.log(reponse.data)
+        localStorage.setItem('userInfo', JSON.stringify(reponse.data.user))
+        //  localStorage.setItem('authToken', data.token)
         //localStorage.setItem('userInfo',JSON.stringify(data))
         // window.location.href='/'
-       
-     
-      
+
+
+
     } catch (error) {
         console.log(error)
         dispatch({
             type: LOGIN_FAIL,
-            payload:error.response &&  error.response.data.message ? 
-            error.response.data.message : error.message,
+            payload: error.response && error.response.data.message ?
+                error.response.data.message : error.message,
         })
     }
 }
@@ -138,7 +139,7 @@ export const Register = (userData) => async (dispatch) => {
         dispatch({
             type: REGISTER_USER_SUCCESS,
             payload: data.user
-            
+
         })
         console.log(data.user)
 
@@ -247,45 +248,49 @@ export const registerTrader = (userData) => async (dispatch) => {
         }
 
 
-        const { data } = await axios.post('http://localhost:3000/api/v1/traderregister',userData, config)
+        const { data } = await axios.post('http://localhost:3000/api/v1/traderregister', userData, config)
 
         dispatch({
             type: TRADERREGISTER_USER_SUCCESS,
             payload: data.user
         })
-        
+
 
     } catch (error) {
         dispatch({
             type: TRADERREGISTER_USER_FAIL,
             payload: error.response.data.message
-            
+
         })
-       
+
     }
 }
 
 
 // Load user
 export const loadUser = () => async (dispatch) => {
-   try {
+    try {
 
         dispatch({ type: LOAD_USER_REQUEST })
-      
 
-        const { data } = await axios.get('http://localhost:3000/api/v1/me', {
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('authToken')) ?? ''}`,
-            }
+        // {
+        //     headers: {
+        //         'Authorization': `Bearer ${localStorage.getItem('authToken') ?? ''}`,
+        //     }
+        // }
+        const response = await axios.get('http://localhost:3000/api/v1/me', {
+            withCredentials: true,
         })
+        console.log(response.data)
         console.log("hey2223")   // ici error 
         dispatch({
             type: LOAD_USER_SUCCESS,
-            payload: data.user
+            payload: response.data.user
         })
 
     } catch (error) {
-    
+        console.log(error.message)
+
         dispatch({
             type: LOAD_USER_FAIL,
             payload: error.response?.data.message
