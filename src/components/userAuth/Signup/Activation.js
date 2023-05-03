@@ -12,7 +12,7 @@ const Activation = () => {
 
     const {activationcode } = useParams();
     //axios.post(`https://livmo.herokuapp.com/api/v1/verifyuser/${activationcode}`) // this oussema's code  , production server
-    axios.post(`http://localhost:3000/api/v1/verifyuser/${activationcode}`)
+    axios.post(`https://backendlivmo.onrender.com/api/v1/verifyuser/${activationcode}`)
     console.log(activationcode)
     return (
      
