@@ -14,7 +14,8 @@ const path = require('path');
 // const fs = require('fs')
 
 app.use(cors({
- 
+  origin:'https://wwww.livmo.net',
+  headers : ["Content-Type"],
   credentials:true,
 }));
 
