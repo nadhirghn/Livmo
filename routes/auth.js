@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 
-const { 
-    registerUser, 
-    loginUser, 
+const {
+    registerUser,
+    loginUser,
     forgotPassword,
     resetPassword,
-    getUserProfile, 
+    getUserProfile,
     updatePassword,
     updateEmail,
     updateProfile,
@@ -26,7 +26,7 @@ router.route('/verifyuser/:activationcode').post(verifyUser);
 
 //
 router.route('/register').post(registerUser);
-router.route('/login').post(loginUser); 
+router.route('/login').post(loginUser);
 
 //Individu
 

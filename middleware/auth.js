@@ -7,6 +7,7 @@ const user = require('../models/user');
 exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 
     const { token } = req.cookies
+    console.log(token)
    
     if(!token) {
         return next(new ErrorHandler('Login first to access this ressource.', 401))

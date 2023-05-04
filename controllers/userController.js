@@ -6,45 +6,28 @@ const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const sendConfirmationEmail = require('../utils/sendEmail');
 const cloudinary = require('cloudinary');
-const crypto =require('crypto');
+const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const { performance } = require('perf_hooks');
+
 
 
 
 //Verify user => /api/v1/verifyuser/:activationcode
-exports.verifyUser  = catchAsyncErrors(async (req, res) => {
+exports.verifyUser = catchAsyncErrors(async (req, res) => {
 
     const user = await User.findOne({ activationCode: req.params.activationcode });
-            user.verified = true
-            await user.save();
-            res.send({
-                message: "Verified Successfully"
-            })
+    user.verified = true
+    await user.save();
+    res.send({
+        message: "Verified Successfully"
+    })
 })
 
 
 // Register a user   => /api/v1/register //////////////////////////////register user ////////////////////////////////
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
-    try {
-        // Marquer le début de la fonction
-        performance.mark('startFunction');
-    
-        // Effectuer la fonction
-        // ...
-    
-        // Marquer la fin de la fonction
-        performance.mark('endFunction');
-    
-        // Mesurer le temps entre les deux marques
-        performance.measure('functionDuration', 'startFunction', 'endFunction');
-    
-        res.status(200).send('Success');
-      } catch (err) {
-        res.status(500).send('Error');
-      }
-
+   
 
     const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     let activationCode = "";
@@ -59,7 +42,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
 
 
-  const { fname, lname, phone, birthday, email, country, password } = req.body;
+    const { fname, lname, phone, birthday, email, country, password } = req.body;
     console.log(req.body)
 
     const user = await User.create({
@@ -72,39 +55,39 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         password,
         activationCode: activationCode,
         avatar: {    /// comment this 
-        public_id: result.public_id, // comment this 
-        secure_url: result.secure_url// comment this 
+            public_id: result.public_id, // comment this 
+            secure_url: result.secure_url// comment this 
         } // comment this 
     })
 
-        // Create reset password url
-        const confirmUrl = `${process.env.FRONTEND_URL}/confirm/${user.activationCode}`
-        const message = `To activate your account, please click on this link:\n\n${confirmUrl}\n\nIf you have not requested this email, then ignore it.`
-    
-        try {
-    
-            await sendEmail({
-                email: user.email,
-                subject: 'livmo conform your account',
-                message
-            })
-    
-            res.status(200).json({
-                success: true,
-                message: `Email sent to: ${user.email}`
-            })
-    
-        } catch (error) {
-        
-        
-            return next(console.log(error));
-            
-        }
-        
-        await user.save();
-        sendToken(user, 200, res)
+    // Create reset password url
+    const confirmUrl = `${process.env.FRONTEND_URL}/confirm/${user.activationCode}`
+    const message = `To activate your account, please click on this link:\n\n${confirmUrl}\n\nIf you have not requested this email, then ignore it.`
+
+    try {
+
+        await sendEmail({
+            email: user.email,
+            subject: 'livmo conform your account',
+            message
+        })
+
+        res.status(200).json({
+            success: true,
+            message: `Email sent to: ${user.email}`
+        })
+
+    } catch (error) {
+
+
+        return next(console.log(error));
+
+    }
+
+    await user.save();
+    sendToken(user, 200, res)
 })
-   
+
 
 
 
@@ -113,28 +96,10 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 
 
-    try {
-        // Marquer le début de la fonction
-        performance.mark('startFunction');
-    
-        // Effectuer la fonction
-        // ...
-    
-        // Marquer la fin de la fonction
-        performance.mark('endFunction');
-    
-        // Mesurer le temps entre les deux marques
-        performance.measure('functionDuration', 'startFunction', 'endFunction');
-    
-        res.status(200).send('Success');
-      } catch (err) {
-        res.status(500).send('Error');
-      }
-    
     const { email, password } = req.body;
-    
-   
-   // console.log("this is the password in the login page",password)
+
+
+    // console.log("this is the password in the login page",password)
 
 
     // Checks if email and password is entered by user
@@ -145,27 +110,41 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     // Finding user in database
     const user = await User.findOne({ email }).select('+password')
     //console.log("this is the user password",user.password)
-   
+
 
 
 
     if (!user) {
         return next(new ErrorHandler('Invalid email or password', 401));
     }
-
-    // Checks if password is correct or not
-    // const isPasswordMatched = user.comparePassword(password);
-    const isPasswordMatched = await user.comparePassword(password);
-   // console.log(isPasswordMatched)
-    
-    if (!isPasswordMatched) {
+    else if (!await user.comparePassword(password)) {
         return next(new ErrorHandler('Invalid email or password second one', 401));
     }
-    if (isPasswordMatched && user && !user.verified ) {
+    else if (!user.verified) {
         return next(new ErrorHandler('Please check your email for activation', 401));
     }
-    
-    sendToken(user,200,res)
+    else {
+        // sendToken(user, 200, res)
+        const token = user.getJwtToken();
+
+        console.log(token)
+
+        // Options for cookie
+        const options = {
+            expiresIn: new Date(
+                Date.now() + process.env.COOKIE_EXPIRES_TIME * 1000
+            ),
+            httpOnly: true,
+            sameSite: 'none',
+            secure: true
+
+        }
+        res.status(200).cookie('token', token, options).json({
+            success: true,
+            token,
+            user
+        })
+    }
 })
 
 
@@ -174,23 +153,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
 
-    try {
-        // Marquer le début de la fonction
-        performance.mark('startFunction');
-    
-        // Effectuer la fonction
-        // ...
-    
-        // Marquer la fin de la fonction
-        performance.mark('endFunction');
-    
-        // Mesurer le temps entre les deux marques
-        performance.measure('functionDuration', 'startFunction', 'endFunction');
-    
-        res.status(200).send('Success');
-      } catch (err) {
-        res.status(500).send('Error');
-      }
+   
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
@@ -228,7 +191,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
         return next(new ErrorHandler(error.message, 500));
     }
-    sendToken(user,200,res)
+    sendToken(user, 200, res)
 
 })
 
@@ -236,23 +199,6 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
 
-    try {
-        // Marquer le début de la fonction
-        performance.mark('startFunction');
-    
-        // Effectuer la fonction
-        // ...
-    
-        // Marquer la fin de la fonction
-        performance.mark('endFunction');
-    
-        // Mesurer le temps entre les deux marques
-        performance.measure('functionDuration', 'startFunction', 'endFunction');
-    
-        res.status(200).send('Success');
-      } catch (err) {
-        res.status(500).send('Error');
-      }
     // Hash URL token
     const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex')
 
@@ -304,7 +250,7 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
     user.password = req.body.password;
     await user.save();
 
-    const message = `Your password has been changed to ${new Date()}` 
+    const message = `Your password has been changed to ${new Date()}`
 
     try {
 
@@ -335,7 +281,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         country: req.body.country,
         phone: req.body.phone,
         bio: req.body.bio,
-        showbooked : req.body.showBookedExp,
+        showbooked: req.body.showBookedExp,
 
     }
 
@@ -350,7 +296,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
             crop: "scale"
         })
 
-        newUserData.avatar = { 
+        newUserData.avatar = {
             public_id: result.public_id,
             url: result.secure_url
         }
@@ -412,7 +358,7 @@ exports.registerUserHost = catchAsyncErrors(async (req, res, next) => {
     for (let i = 0; i < 25; i++) {
         activationCode += characters[Math.floor(Math.random() * characters.length)];
     }
-    
+
     const { typehost, name, email, country, phone, password, city, codepostale, address } = req.body;
     const user = await User.create({ //******************************************register as a host ********************************* */
         typehost,
@@ -460,7 +406,7 @@ exports.registerUserHost = catchAsyncErrors(async (req, res, next) => {
         return next(console.log(error));
     }
     await user.save();
-   // sendToken(user, 200, res)
+    // sendToken(user, 200, res)
 })
 
 
@@ -507,7 +453,7 @@ exports.updateToHostProfile = catchAsyncErrors(async (req, res, next) => {
             crop: "scale"
         })
 
-        newUserData.avatar = { 
+        newUserData.avatar = {
             public_id: result.public_id,
             url: result.secure_url
         }
@@ -550,7 +496,7 @@ exports.registerOrganism = catchAsyncErrors(async (req, res, next) => {
         crop: "scale"
     })
 
-    const {typehost, name, city, contactpersone, email, country, phone, codepostale, address, password, cnss, mfiscale, homme, femme} = req.body;
+    const { typehost, name, city, contactpersone, email, country, phone, codepostale, address, password, cnss, mfiscale, homme, femme } = req.body;
 
     const user = await User.create({
         typehost,
@@ -580,14 +526,14 @@ exports.registerOrganism = catchAsyncErrors(async (req, res, next) => {
             public_id: resu.public_id,
             url: resu.secure_url
         },
-        
+
 
 
     })
 
     const confirmUrl = `${process.env.FRONTEND_URL}/confirm/${user.activationCode}`
     const message = `To activate your account, please click on this link:\n\n${confirmUrl}\n\nIf you have not requested this email, then ignore it.`
-    
+
     try {
         await sendEmail({
             email: user.email,
@@ -603,7 +549,7 @@ exports.registerOrganism = catchAsyncErrors(async (req, res, next) => {
     } catch (error) {
         return next(console.log(error));
     }
-    
+
     await user.save();
 
     sendToken(user, 200, res)
@@ -620,9 +566,9 @@ exports.updateOrganismProfile = catchAsyncErrors(async (req, res, next) => {
         contactpersone,
         email: req.body.email,
         country: req.body.country,
-        phone : req.body.phone,
-        codepostale : req.body.codepostale,
-        address : req.body.address,
+        phone: req.body.phone,
+        codepostale: req.body.codepostale,
+        address: req.body.address,
         password: req.body.password,
         forme: req.body.forme,
         mfiscale: req.body.mfiscale,
@@ -641,7 +587,7 @@ exports.updateOrganismProfile = catchAsyncErrors(async (req, res, next) => {
             crop: "scale"
         })
 
-        newHostData.avatar = { 
+        newHostData.avatar = {
             public_id: result.public_id,
             url: result.secure_url
         }
@@ -663,8 +609,8 @@ exports.updateOrganismProfile = catchAsyncErrors(async (req, res, next) => {
 exports.registerTrader = catchAsyncErrors(async (req, res, next) => {
 
     const characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
- 
-    
+
+
     let activationCode = "";
 
     for (let i = 0; i < 25; i++) {
@@ -691,8 +637,8 @@ exports.registerTrader = catchAsyncErrors(async (req, res, next) => {
 
 
 
-    const {typeservice, name, contactpersone, email, password, country,city, phone, codepostale, address, mfiscale, cnss, activity, 
-        homme, femme, forme, typerestaurant, specialty  } = req.body;
+    const { typeservice, name, contactpersone, email, password, country, city, phone, codepostale, address, mfiscale, cnss, activity,
+        homme, femme, forme, typerestaurant, specialty } = req.body;
 
     const user = await User.create({
         typeservice,
@@ -729,7 +675,7 @@ exports.registerTrader = catchAsyncErrors(async (req, res, next) => {
             url: resu.secure_url
         },
 
-       
+
     })
 
 
@@ -750,29 +696,29 @@ exports.registerTrader = catchAsyncErrors(async (req, res, next) => {
 
     } catch (error) {
         return next(console.log(error));
-       
+
     }
 
-  
-  
+
+
     if (req.body.cad !== '') {
-    
+
         const resultt = await cloudinary.v2.uploader.upload(req.body.cad, {
             folder: 'cad',
             width: 150,
             crop: "scale"
         })
 
-        user.cad = { 
+        user.cad = {
             public_id: resultt.public_id,
             url: resultt.secure_url
         }
     }
-   
+
 
     await user.save();
-    
-  // sendToken(user, 200, res)
+
+    // sendToken(user, 200, res)
 
 })
 
@@ -785,7 +731,7 @@ exports.updateEmail = catchAsyncErrors(async (req, res, next) => {
 
     user.email = req.body.email;
     await user.save();
-    
+
     {/*
     const message = `Your password has been changed to ${new Date()}`
 
@@ -810,4 +756,7 @@ exports.updateEmail = catchAsyncErrors(async (req, res, next) => {
 
 })
 
+
 ////FRONTEND_URL="https://frontlivmo.onrender.com" dans .env
+
+// FRONTEND_URL="http://localhost:3001" dans .env 

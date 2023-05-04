@@ -3,30 +3,13 @@ const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const APIFeatures = require('../utils/apiFeatures')
 const cloudinary = require('cloudinary');
-const { performance } = require('perf_hooks');
+
 
 // Create new experience   =>   /api/v1/host/experience/new
 
 exports.newExperience = catchAsyncErrors(async (req, res, next) => {
 
-    try {
-        // Marquer le début de la fonction
-        performance.mark('startFunction');
     
-        // Effectuer la fonction
-        // ...
-    
-        // Marquer la fin de la fonction
-        performance.mark('endFunction');
-    
-        // Mesurer le temps entre les deux marques
-        performance.measure('functionDuration', 'startFunction', 'endFunction');
-    
-        res.status(200).send('Success');
-      } catch (err) {
-        res.status(500).send('Error');
-      }
-   
    //Experience Image
      let YourIdeaImage = []
      if (typeof req.body.YourIdeaImage === 'string') {
@@ -198,23 +181,7 @@ exports.newExperience = catchAsyncErrors(async (req, res, next) => {
 exports.getExperiences = catchAsyncErrors(async (req, res, next) => {
 
 
-    try {
-        // Marquer le début de la fonction
-        performance.mark('startFunction');
-    
-        // Effectuer la fonction
-        // ...
-    
-        // Marquer la fin de la fonction
-        performance.mark('endFunction');
-    
-        // Mesurer le temps entre les deux marques
-        performance.measure('functionDuration', 'startFunction', 'endFunction');
-    
-        res.status(200).send('Success');
-      } catch (err) {
-        res.status(500).send('Error');
-      }
+   
 
     const resPerPage = 9;
     const experiencesCount = await Experience.countDocuments();

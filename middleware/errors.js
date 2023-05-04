@@ -26,6 +26,9 @@ module.exports = (err, req, res, next) => {
             error = new ErrorHandler(message, 400)
         }
 
+
+        
+
         // Handling Mongoose Validation Error
     if (err.name === 'ValidationError') {
             const message = Object.values(err.errors).map(value => value.message);
@@ -37,6 +40,13 @@ module.exports = (err, req, res, next) => {
             const message = `Duplicate ${Object.keys(err.keyValue)} entered`
             error = new ErrorHandler(message, 400)
         }
+
+
+    if (err.code === 404) {
+            const message = `not available for the moment`
+            error = new ErrorHandler(message, 404)
+        }
+        
 
         // Handling wrong JWT error
     if (err.name === 'JsonWebTokenError') {

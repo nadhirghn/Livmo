@@ -13,13 +13,17 @@ const path = require('path');
 // const path = require('path')
 // const fs = require('fs')
 
+app.use(cors({
+  origin:'http://localhost:3001',
+  credentials:true,
+}));
 
 
 
 app.use(express.json());
-app.use(bodyParser.json({limit:"30mb" , extended:true}))
-app.use(bodyParser.urlencoded({ limit:"30mb", extended: true }));
-app.use(cors());
+app.use(bodyParser.json({ limit: "30mb", extended: true }))
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+
 app.use(morgan('tiny'));
 app.use(cookieParser());
 app.use(fileUpload());
@@ -46,7 +50,7 @@ const transport = require('./routes/transport');
 //   }
 
 
-  // Use the middleware for all incoming requests
+// Use the middleware for all incoming requests
 //app.use(httpsRedirect);
 
 
@@ -55,14 +59,15 @@ const transport = require('./routes/transport');
 
 
 
-//////////****************www */
-  app.use(function(req, res, next) {
-    if (req.headers.host.slice(0, 4) === 'www.') {
-      var newHost = req.headers.host.slice(4);
-      return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
-    }
-    next();
-  });
+//////////**************** www */
+
+app.use(function (req, res, next) {
+  if (req.headers.host.slice(0, 4) === 'www.') {
+    var newHost = req.headers.host.slice(4);
+    return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+  }
+  next();
+});
 
 
 app.use('/api/v1', auth);  //***************** SIGNUP and LOGIN ********************** */
@@ -77,7 +82,7 @@ app.use('/api/v1', experience);
 //     res.redirect(301, 'https://localhost:3000');
 //   });
 
- //app.use(errorMiddleware);
+//app.use(errorMiddleware);
 // Prevent Nosql Injection Sanitize Data
 const mongoSanitize = require('express-mongo-sanitize');
 
@@ -89,7 +94,7 @@ var xss = require('xss-clean')
 //import xss from 'xss-clean';
 
 //Setting up config file
-dotenv.config({ path: 'config.env'});
+dotenv.config({ path: 'config.env' });
 
 //Use to limit repeated requests to public APIs and/or endpoints such as password reset. 
 const rateLimit = require('express-rate-limit')
@@ -99,9 +104,9 @@ var hpp = require('hpp');
 
 // Setting up cloudinary configuration
 cloudinary.config({
-    cloud_name : process.env.CLOUDINARY_CLOUD_NAME,
-    api_key : process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
 
@@ -109,24 +114,24 @@ cloudinary.config({
 // Connecting to database
 connectDatabase();
 
-const server = app.listen(process.env.PORT, ()=>{
-    console.log(`Server Started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode. `);
+const server = app.listen(process.env.PORT, () => {
+  console.log(`Server Started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode. `);
 });
 
 // Handle Unhandled Promise rejections
 process.on('unhandledRejection', err => {
-    console.log(`ERROR: ${err.message}`);
-    console.log('Shutting down the server due to Unhandled Promise rejection');
-    server.close(() => {
-        process.exit(1)
-    })
+  console.log(`ERROR: ${err.message}`);
+  console.log('Shutting down the server due to Unhandled Promise rejection');
+  server.close(() => {
+    process.exit(1)
+  })
 })
 
 // Handle Uncaught exceptions
 process.on('uncaughtException', err => {
-    console.log(`ERROR: ${err.stack}`);
-    console.log('Shutting down due to uncaught exception');
-    process.exit(1)
+  console.log(`ERROR: ${err.stack}`);
+  console.log('Shutting down due to uncaught exception');
+  process.exit(1)
 })
 
 //Sanitize Data
@@ -136,27 +141,14 @@ app.use(mongoSanitize());
 app.use(helmet());
 
 
-///code SEO  suite checklist , 2/
-
-app.use(express.static('public'));
-
-
-
-
+/// Les principaux codes http (les 4xx erreur client) 
 app.use((req, res, next) => {
-  res.set('Cache-Control', 'public, max-age=86400');
-  next();
+  res.status(404)
+    .header('X-Robots-Tag', 'noindex')
+    .send('Sorry, the requested resource was not found');
+
+
 });
-
-// Définit la date d'expiration à 1 semaine pour les fichiers statiques
-app.use((req, res, next) => {
-  res.set('Expires', new Date(Date.now() + 604800000).toUTCString());
-  next();
-});
-
-
-/// FIN CODE SEO ////
-
 
 
 //un code 2 de checklist suite 2/
@@ -165,7 +157,7 @@ app.use((req, res, next) => {
 // app.use(express.static(path.join(__dirname, 'public'), {
 //     maxAge: '1d'
 //   }));
-  
+
 //   // Disable caching for dynamic content
 //   app.use((req, res, next) => {
 //     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -178,10 +170,10 @@ app.use((req, res, next) => {
 app.use(xss());
 
 const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
 
 // Apply the rate limiting middleware to all requests
@@ -193,5 +185,5 @@ app.use(hpp())
 // frontend : 3001
 
 // npm install --ignore-scripts
-// npm install -g npm 
+// npm install -g npm
 // npm install --legacy-peer-deps
