@@ -94,7 +94,17 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 // Login User  =>  /api/v1/login  
 // 123rimR****
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
+    try {
+        
 
+     // le code here 
+
+
+    } catch (error) {
+
+        // redirect here
+        
+    }
 
     const { email, password } = req.body;
 
