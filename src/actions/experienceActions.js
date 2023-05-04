@@ -75,11 +75,11 @@ export const newExperience = (experienceData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`http://localhost:3000/api/v1/host/experience/new`, experienceData, config)
-        
+       // const reponse = await axios.post(`http://localhost:3000/api/v1/host/experience/new`, experienceData, config)
+        const reponse = await axiosInstance.post('/host/experience/new', experienceData)
         dispatch({
             type: NEW_EXPERIENCE_SUCCESS,
-            payload: data
+            payload: reponse.data
         })
 
     } catch (error) {

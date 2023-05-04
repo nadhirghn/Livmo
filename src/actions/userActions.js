@@ -66,10 +66,11 @@ import axiosInstance from '../AxiosInstance'
 export const Validation = (userData, activationCode) => async (dispatch) => {
     try {
         dispatch({ type: VALIDATION_REQUEST })
-        const { data } = await axios.post(`https://backendlivmo.onrender.com/api/v1/verifyuser/${activationCode}`, userData)
+       //const { data } = await axios.post(`https://backendlivmo.onrender.com/api/v1/verifyuser/${activationCode}`, userData)
+        const reponse = await axiosInstance.post(`/verifyuser/${activationCode}`,  userData)
         dispatch({
             type: VALIDATION_SUCCESS,
-            payload: data.user,
+            payload: reponse.data.user,
 
         })
     } catch (error) {
@@ -91,9 +92,9 @@ export const login = (email, password) => async (dispatch) => {
             withCredentials: true,
         }
         /// https://backendlivmo.onrender.com/api/v1/login
-        // const reponse = await axios.post('http://localhost:3000/api/v1/login', { email, password }, config)
+      //  const reponse = await axios.post('http://localhost:3000/api/v1/login', { email, password }, config)
 
-        const reponse = await axiosInstance.post('/login', { email, password })
+       const reponse = await axiosInstance.post('/login', { email, password })
 
         localStorage.setItem('authToken', reponse.data.token)
 
@@ -133,15 +134,16 @@ export const Register = (userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/register', userData, config)
+       // const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/register', userData, config)
+       const reponse = await axiosInstance.post('/register', userData)
         //const { data } = await axios.post('', userData, config)
-        console.log(data.user)
+        console.log(reponse.data.user)
         dispatch({
             type: REGISTER_USER_SUCCESS,
-            payload: data.user
+            payload: reponse.data.user
 
         })
-        console.log(data.user)
+        console.log(reponse.data.user)
 
     } catch (error) {
         dispatch({
@@ -162,12 +164,12 @@ export const HostRegister = (userData) => async (dispatch) => {
                 'Content-Type': 'multipart/form-data'
             }
         }
-
-        const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/hostregister', userData, config)
+        const reponse = await axiosInstance.post('/hostregister', userData)
+       // const { data } = await axios.post('https://backendlivmo.onrender.com/api/v1/hostregister', userData, config)
 
         dispatch({
             type: HOSTREGISTER_USER_SUCCESS,
-            payload: data.user
+            payload: reponse.data.user
         })
 
     } catch (error) {
