@@ -7,12 +7,17 @@ import img from '../../../img/success.png'
 import Layout from '../../shared/layout'
 
 import { Link } from "react-router-dom"
+import axiosInstance from '../../../AxiosInstance';
 
 const Activation = () => {
 
     const {activationcode } = useParams();
     //axios.post(`https://livmo.herokuapp.com/api/v1/verifyuser/${activationcode}`) // this oussema's code  , production server
-    axios.post(`https://backendlivmo.onrender.com/api/v1/verifyuser/${activationcode}`)
+   // axios.post(`https://backendlivmo.onrender.com/api/v1/verifyuser/${activationcode}`)
+    axiosInstance.post(`/verifyuser/${activationcode}`)
+
+    
+  
     console.log(activationcode)
     return (
      
