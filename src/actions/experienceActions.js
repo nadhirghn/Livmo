@@ -36,6 +36,7 @@ import {
 
 
 } from '../constants/experienceConstants'
+import axiosInstance from '../AxiosInstance'
 
 export const getExperiences = (keyword = '', currentPage = 1, price, category, rating = 0) => async (dispatch) => {
     try {

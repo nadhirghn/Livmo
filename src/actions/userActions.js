@@ -280,9 +280,11 @@ export const loadUser = () => async (dispatch) => {
         //         'Authorization': `Bearer ${localStorage.getItem('authToken') ?? ''}`,
         //     }
         // }
-        const response = await axios.get('http://localhost:3000/api/v1/me', {
-            withCredentials: true,
-        })
+        const response = await axiosInstance.get('/me')
+        // const response = await axios.get('http://localhost:3000/api/v1/me', {
+        //     withCredentials: true,
+        // })
+
         console.log(response.data)
         console.log("hey2223")   // ici error 
         dispatch({

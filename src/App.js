@@ -192,7 +192,8 @@ function App() {
             <Route path="/experience/:id" component={ExperienceDetails} />
             <HostProtectedRoute exact path='/host/me' component={Host} />
             <Route exact path='/update-experience' component={EditExperience} />
-
+     
+     {/* crer une page de l'erreur */}
 
 
 
